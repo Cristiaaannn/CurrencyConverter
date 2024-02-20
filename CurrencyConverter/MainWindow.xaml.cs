@@ -59,6 +59,7 @@ namespace CurrencyConverter
             double convertedValue;
             double a;
             if (Double.TryParse(Curr1Input.Text, out a))
+
             {
                 if (a < 0)
                 {
