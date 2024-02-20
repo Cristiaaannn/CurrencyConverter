@@ -60,6 +60,12 @@ namespace CurrencyConverter
             double a;
             if (Double.TryParse(Curr1Input.Text, out a))
             {
+                if (a < 0)
+                {
+                    ConvertedValue.Content = string.Empty;
+                    AmountContainsString.Content = "Can't convert negative";
+                    return;
+                }
 
                 if (ComboBoxCurr1.SelectedIndex == ComboBoxCurr2.SelectedIndex)
                 {
