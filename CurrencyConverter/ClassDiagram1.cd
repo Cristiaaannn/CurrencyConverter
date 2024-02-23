@@ -10,10 +10,9 @@
   <Class Name="CurrencyConverter.MainWindow" BaseTypeListCollapsed="true">
     <Position X="6.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAAKYAAgAAAAAAAAAEgAAAAAAAIAAA=</HashCode>
+      <HashCode>AAAAAIAAMAAAAAAAKYAAgAAAAAAAAAEgAAAAAAAIAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="CurrencyConverter.Properties.Resources">
     <Position X="4.25" Y="1.75" Width="1.75" />

@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="183"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="50"/>
@@ -94,6 +94,7 @@
         <Label Grid.Column="7" Content="To" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Bottom"/>
         <Label x:Name="AmountContainsString" Content="" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFF71616" FontWeight="Bold"  />
         <Image Grid.Column="5" HorizontalAlignment="Center" Height="86" Grid.Row="1" VerticalAlignment="Top" Source="C:\Users\mirea\Pojects\CurrencyConverter\CurrencyConverter\logofinal2.png" Grid.RowSpan="2" SnapsToDevicePixels="True" Margin="0,20,0,0" Width="84"/>
+        <Label Name="API_License" Grid.Column="1" Grid.ColumnSpan="4" Content="" HorizontalAlignment="Left" Grid.Row="8" Grid.RowSpan="2" VerticalAlignment="Top" Foreground="#FF0289E0" />
 
     </Grid>
 </Window>

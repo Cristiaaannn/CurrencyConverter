@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace CurrencyConverter
 {
@@ -21,12 +23,43 @@ namespace CurrencyConverter
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        Root val = new Root();
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+            GetValue();
+        }
+
+        public async void GetValue()
+        {
+            val = await GetData<Root>("https://openexchangerates.org/api/latest.json?app_id=38917be4333a4e44b92fbb3661626272");
             BindCurrency();
+        }
+
+        public static async Task<Root> GetData<T>(string url)
+        {
+            var myRoot = new Root();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    HttpResponseMessage respone = await client.GetAsync(url);
+                    if (respone.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var ResponceString = await respone.Content.ReadAsStringAsync();
+                        var ResponceObject = JsonConvert.DeserializeObject<Root>(ResponceString);
+
+                        return ResponceObject;
+                    }
+                    return myRoot;
+                }
+            }
+            catch
+            {
+                return myRoot;
+            }
         }
 
         private void BindCurrency()
@@ -34,25 +67,29 @@ namespace CurrencyConverter
             DataTable dtCurrency = new DataTable();
             dtCurrency.Columns.Add("Text");
             dtCurrency.Columns.Add("Value");
-            dtCurrency.Rows.Add("INR", 1);
-            dtCurrency.Rows.Add("USD", 75);
-            dtCurrency.Rows.Add("EUR", 85);
-            dtCurrency.Rows.Add("SAR", 20);
-            dtCurrency.Rows.Add("POUND", 5);
-            dtCurrency.Rows.Add("DEM", 43);
+
+            API_License.Content = val.license;
+            dtCurrency.Rows.Add("INR", val.rates.INR);
+            dtCurrency.Rows.Add("USD", val.rates.USD);
+            dtCurrency.Rows.Add("NZD", val.rates.NZD);
+            dtCurrency.Rows.Add("JPY", val.rates.JPY);
+            dtCurrency.Rows.Add("EUR", val.rates.EUR);
+            dtCurrency.Rows.Add("CAD", val.rates.CAD);
+            dtCurrency.Rows.Add("ISK", val.rates.ISK);
+            dtCurrency.Rows.Add("PHP", val.rates.PHP);
+            dtCurrency.Rows.Add("DKK", val.rates.DKK);
+            dtCurrency.Rows.Add("CZK", val.rates.CZK);
 
             ComboBoxCurr1.ItemsSource = dtCurrency.DefaultView;
             ComboBoxCurr1.DisplayMemberPath = "Text";
             ComboBoxCurr1.SelectedValuePath = "Value";
-            ComboBoxCurr1.SelectedIndex = 2;
+            ComboBoxCurr1.SelectedIndex = 4;
 
             ComboBoxCurr2.ItemsSource = dtCurrency.DefaultView;
             ComboBoxCurr2.DisplayMemberPath = "Text";
             ComboBoxCurr2.SelectedValuePath = "Value";
-            ComboBoxCurr2.SelectedIndex = 2;
+            ComboBoxCurr2.SelectedIndex = 1;
         }
-        public List<string> Currencies { get; set; } = new List<string>() { "EUR", "USD", "RON" };
-
 
         private void Convert()
         {
@@ -73,7 +110,7 @@ namespace CurrencyConverter
                 }
                 else
                 {
-                    convertedValue = (double.Parse(ComboBoxCurr1.SelectedValue.ToString()) * double.Parse(Curr1Input.Text)) / double.Parse(ComboBoxCurr2.SelectedValue.ToString());
+                    convertedValue = (double.Parse(ComboBoxCurr2.SelectedValue.ToString()) * double.Parse(Curr1Input.Text)) / double.Parse(ComboBoxCurr1.SelectedValue.ToString());
                     convertedValue = Math.Round(convertedValue, 3);
                     ConvertedValue.Content = convertedValue.ToString();
                 }
